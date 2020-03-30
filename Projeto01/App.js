@@ -21,16 +21,18 @@ class App extends Component {
     this.state = {
       produtos: [],
       modalVisible: false,
+      total: 0,
     }
 
     this.remover = this.remover.bind(this);
     this.abrirModal = this.abrirModal.bind(this);
     this.fecharModal = this.fecharModal.bind(this);
+    this.total = this.total.bind(this);
   }
 
   async componentDidMount(){
     await AsyncStorage.getItem('produtos').then((value) => {
-      this.setState({ produtos: JOSN.parse(value) });
+      this.setState({ produtos: JSON.parse(value) });
     });
 
   }
@@ -63,11 +65,20 @@ class App extends Component {
   }
 
   total(){
-    state = this.state;
+    const state = this.state;
 
-    const total = this.state.produtos.valor + this.state.produtos.valor;
+    if(state.produtos !== null) {
+      
+      for (let index = 0; index < state.produtos.valor.length; index++) {
+        const element = state.produtos.valor[index];
 
-    return total;
+        state.total = element;
+        
+        state.total = 50;
+        this.setState(state);
+      }
+    }
+    
   }
 
   render(){
@@ -108,11 +119,11 @@ class App extends Component {
             showsHorizontalScrollIndicator={false}
             keyExtractor={ (item) => item.key }
             data={this.state.produtos}
-            renderItem={ ({item}) => <Produtos data={item} />}
+            renderItem={ ({item}) => <Produtos data={item} total={this.total} />}
           />
           <View style={styles.areaTotal}>
-            <Text style={styles.listas}> Total {this.total} </Text>
-            <Text style={styles.listas}> R$ = </Text>
+            <Text style={styles.listas}> Total  </Text>
+            <Text style={styles.listas}> R$ = {this.state.total} </Text>
           </View>
         </View>
 

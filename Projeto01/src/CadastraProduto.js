@@ -57,6 +57,9 @@ export default class CadastraProduto extends Component {
             state.produtoProps.push({key: this.state.chave, nome: prod, valor: val});
         
             this.setState(state);
+
+            this.setState({ produto: '' });
+            this.setState({ valor: 0 });
         }
         
       }
@@ -101,7 +104,7 @@ export default class CadastraProduto extends Component {
 
                     <TouchableOpacity
                         style={styles.btnVoltar}
-                        onPress={ () => this.adicionar() }
+                        onPress={ () => {this.adicionar(); this.props.total; } }
                     >
                     <View>
                         <Text style={styles.mais}> Cadastrar </Text>
